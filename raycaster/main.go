@@ -46,30 +46,30 @@ func pointp(X int32, Y int32) *sdl.Point {
 }
 
 var worldMap = [mapWidth][mapHeight]int{
-	{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 7, 7, 7, 7, 7, 7, 7, 7},
-	{4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
-	{4, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
-	{4, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7},
-	{4, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 7},
-	{4, 0, 4, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 7, 7, 0, 7, 7, 7, 7, 7},
-	{4, 0, 5, 0, 0, 0, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
-	{4, 0, 6, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
-	{4, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 1},
-	{4, 0, 8, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0, 0, 0, 8},
-	{4, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 5, 7, 0, 0, 0, 7, 7, 7, 1},
-	{4, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 0, 5, 5, 5, 5, 7, 7, 7, 7, 7, 7, 7, 1},
-	{6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
-	{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
-	{6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
-	{4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 6, 0, 6, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3},
-	{4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
-	{4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
-	{4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
-	{4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 2},
-	{4, 0, 0, 5, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 2, 0, 2, 2},
-	{4, 0, 6, 0, 6, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 5, 0, 0, 2, 0, 0, 0, 2},
-	{4, 0, 0, 0, 0, 0, 0, 0, 0, 4, 6, 0, 6, 2, 0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
-	{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3},
+	{8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 4, 4, 6, 4, 4, 6, 4, 6, 4, 4, 4, 6, 4},
+	{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+	{8, 0, 3, 3, 0, 0, 0, 0, 0, 8, 8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6},
+	{8, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6},
+	{8, 0, 3, 3, 0, 0, 0, 0, 0, 8, 8, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
+	{8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 4, 0, 0, 0, 0, 0, 6, 6, 6, 0, 6, 4, 6},
+	{8, 8, 8, 8, 0, 8, 8, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 6, 0, 0, 0, 0, 0, 6},
+	{7, 7, 7, 7, 0, 7, 7, 7, 7, 0, 8, 0, 8, 0, 8, 0, 8, 4, 0, 4, 0, 6, 0, 6},
+	{7, 7, 0, 0, 0, 0, 0, 0, 7, 8, 0, 8, 0, 8, 0, 8, 8, 6, 0, 0, 0, 0, 0, 6},
+	{7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 6, 0, 0, 0, 0, 0, 4},
+	{7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 6, 0, 6, 0, 6, 0, 6},
+	{7, 7, 0, 0, 0, 0, 0, 0, 7, 8, 0, 8, 0, 8, 0, 8, 8, 6, 4, 6, 0, 6, 6, 6},
+	{7, 7, 7, 7, 0, 7, 7, 7, 7, 8, 8, 4, 0, 6, 8, 4, 8, 3, 3, 3, 0, 3, 3, 3},
+	{2, 2, 2, 2, 0, 2, 2, 2, 2, 4, 6, 4, 0, 0, 6, 0, 6, 3, 0, 0, 0, 0, 0, 3},
+	{2, 2, 0, 0, 0, 0, 0, 2, 2, 4, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0, 0, 3},
+	{2, 0, 0, 0, 0, 0, 0, 0, 2, 4, 0, 0, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0, 0, 3},
+	{1, 0, 0, 0, 0, 0, 0, 0, 1, 4, 4, 4, 4, 4, 6, 0, 6, 3, 3, 0, 0, 0, 3, 3},
+	{2, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 2, 2, 2, 6, 6, 0, 0, 5, 0, 5, 0, 5},
+	{2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 5, 0, 5, 0, 0, 0, 5, 5},
+	{2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 5, 0, 5, 0, 5, 0, 5, 0, 5},
+	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5},
+	{2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 5, 0, 5, 0, 5, 0, 5, 0, 5},
+	{2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 2, 2, 0, 5, 0, 5, 0, 0, 0, 5, 5},
+	{2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5},
 }
 
 func generateTextures(width int32, height int32) *[8][]int32 {
@@ -80,9 +80,9 @@ func generateTextures(width int32, height int32) *[8][]int32 {
 	//generate some textures
 	for x := int32(0); x < width; x++ {
 		for y := int32(0); y < height; y++ {
-			xorcolor := (x * 256 / width) ^ (y * 256 / height)
-			ycolor := y * 256 / height
-			xycolor := y*128/height + x*128/width
+			xorcolor := (x * 0x100 / width) ^ (y * 0x100 / height)
+			ycolor := y * 0x100 / height
+			xycolor := y*0x80/height + x*0x80/width
 			cross := int32(0)
 			if x != y && x != width-y {
 				cross = 1
@@ -131,7 +131,8 @@ func run() (err error) {
 	}
 	defer renderer.Destroy()
 
-	if surface, err = window.GetSurface(); err != nil {
+	// if surface, err = sdl.CreateRGBSurfaceWithFormat(0, width, height, 32, uint32(sdl.PIXELFORMAT_BGRA32)); err != nil {
+	if surface, err = sdl.CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0); err != nil {
 		return
 	}
 	defer surface.Free()
@@ -165,15 +166,75 @@ func run() (err error) {
 	pixels := surface.Pixels()
 
 	for running {
-		surface.FillRect(&sdl.Rect{X: 0, Y: 0, W: width, H: height}, 0)
+		// surface.FillRect(&sdl.Rect{X: 0, Y: 0, W: width, H: height}, 0)
 
-		for x := 0; x < 8*textureWidth; x++ {
-			for y := 0; y < textureHeight; y++ {
-				color := textures[x/textureWidth][textureWidth*y+(x%textureWidth)]
-				i := int32(y)*surface.Pitch + int32(256+x)*int32(surface.Format.BytesPerPixel)
-				pixels[i] = byte(color >> 0 & 0xff)    // b
-				pixels[i+1] = byte(color >> 8 & 0xff)  // g
-				pixels[i+2] = byte(color >> 16 & 0xff) // r
+		for x := int32(0); x < width; x++ {
+			for y := int32(0); y < height; y++ {
+				set(x, y, 0xffffff, 0, surface, pixels)
+			}
+		}
+
+		// for x := 0; x < 8*texturewidth; x++ {
+		// 	for y := 0; y < textureheight; y++ {
+		// 		color := textures[x/texturewidth][texturewidth*y+(x%texturewidth)]
+		// 		set(x+256, y, color, surface)
+		// 	}
+		// }
+
+		// Vertical position of the camera.
+		posZ := 0.5 * height
+
+		floorTexture := 3
+		ceilingTexture := 5
+
+		// rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
+		rayDirX0 := dirX - planeX
+		rayDirY0 := dirY - planeY
+		rayDirX1 := dirX + planeX
+		rayDirY1 := dirY + planeY
+
+		// FLOOR CASTING
+		for y := int32(0); y < height; y++ {
+			// Current y position compared to the center of the screen (the horizon)
+			p := y - height/2
+
+			// Horizontal distance from the camera to the floor for the current row.
+			// 0.5 is the z position exactly in the middle between floor and ceiling.
+			rowDistance := posZ / float64(p)
+
+			// calculate the real world step vector we have to add for each x (parallel to camera plane)
+			// adding step by step avoids multiplications with a weight in the inner loop
+			floorStepX := rowDistance * (rayDirX1 - rayDirX0) / width
+			floorStepY := rowDistance * (rayDirY1 - rayDirY0) / width
+
+			// real world coordinates of the leftmost column. This will be updated as we step to the right.
+			floorX := posX + rowDistance*rayDirX0
+			floorY := posY + rowDistance*rayDirY0
+
+			for x := int32(0); x < width; x++ {
+				// the cell coord is simply got from the integer parts of floorX and floorY
+				cellX := int32(floorX)
+				cellY := int32(floorY)
+
+				// get the texture coordinate from the fractional part
+				tx := int32(textureWidth*(floorX-float64(cellX))) & (textureWidth - 1)
+				ty := int32(textureHeight*(floorY-float64(cellY))) & (textureHeight - 1)
+
+				floorX += floorStepX
+				floorY += floorStepY
+
+				//dist := math.Sqrt(math.Pow(posX-floorX, 2) + math.Pow(posY-floorY, 2))
+				dist := math.Max(math.Abs(posX-floorX), math.Abs(posY-floorY))
+
+				// floor
+				color := textures[floorTexture][textureWidth*ty+tx]
+				color = (color >> 1) & 0x7f7f7f // make a bit darker
+				set(x, y, color, dist, surface, pixels)
+
+				// ceiling (symmetrical, at screenHeight - y - 1 instead of y)
+				color = textures[ceilingTexture][textureWidth*ty+tx]
+				color = (color >> 1) & 0x7f7f7f // make a bit darker
+				set(x, height-y-1, color, dist, surface, pixels)
 			}
 		}
 
@@ -191,7 +252,7 @@ func run() (err error) {
 			sideDistX := 0.0
 			sideDistY := 0.0
 
-			//l ength of ray from one x or y-side to next x or y-side
+			// length of ray from one x or y-side to next x or y-side
 			deltaDistX := math.Abs(1 / rayDirX)
 
 			if rayDirX == 0 {
@@ -299,12 +360,10 @@ func run() (err error) {
 				color := textures[texNum][textureHeight*texY+texX]
 				// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 				if side == 1 {
-					color = (color >> 1) & 8355711
+					color = (color >> 1) & 0x7f7f7f
 				}
-				i := int32(y)*surface.Pitch + int32(x)*int32(surface.Format.BytesPerPixel)
-				pixels[i] = byte(color >> 0 & 0xff)    // b
-				pixels[i+1] = byte(color >> 8 & 0xff)  // g
-				pixels[i+2] = byte(color >> 16 & 0xff) // r
+
+				set(x, y, color, perpWallDist, surface, pixels)
 			}
 
 			// draw the pixels of the stripe as a vertical line
@@ -317,18 +376,39 @@ func run() (err error) {
 		time = sdl.GetTicks64()
 		frameTime := float64(time-oldTime) / 1000.0 // frameTime is the time this frame has taken, in milliseconds
 
+		// draw a map
+		for x := int32(0); x < mapWidth; x++ {
+			for y := int32(0); y < mapHeight; y++ {
+				color := int32(0xffffff)
+				if x == int32(posX) && y == int32(posY) {
+					color = 0x10fdff
+				} else if worldMap[x][y] == 0 {
+					color = 0
+				}
+
+				scaledX := x * 4
+				scaledY := y * 4
+				for sx := int32(0); sx < 4; sx++ {
+					set(scaledX+2, scaledY+2+sx, color, 0, surface, pixels)
+					set(scaledX+3, scaledY+2+sx, color, 0, surface, pixels)
+					set(scaledX+4, scaledY+2+sx, color, 0, surface, pixels)
+					set(scaledX+5, scaledY+2+sx, color, 0, surface, pixels)
+				}
+			}
+		}
+
 		surfaceTexture, _ := renderer.CreateTextureFromSurface(surface)
 		renderer.Copy(surfaceTexture, nil, &sdl.Rect{X: 1, Y: 1, W: width, H: height})
 		surfaceTexture.Destroy()
 
-		fps, _ := font.RenderUTF8Blended(fmt.Sprintf("%.0f", (1.0/float64(frameTime))), white)
+		fps, _ := font.RenderUTF8Blended(fmt.Sprintf("%.0f", 1.0/frameTime), white)
 		fpsTexture, _ := renderer.CreateTextureFromSurface(fps)
-		renderer.Copy(fpsTexture, nil, &sdl.Rect{X: 2, Y: 2, W: fps.W, H: fps.H})
+		renderer.Copy(fpsTexture, nil, &sdl.Rect{X: width - fps.W, Y: 2, W: fps.W, H: fps.H})
 		fpsTexture.Destroy()
 		fps.Free()
 
-		moveSpeed := float64(frameTime) * 5.0 // the constant value is in squares/second
-		rotSpeed := float64(frameTime) * 3.0  // the constant value is in radians/second
+		moveSpeed := frameTime * 5.0 // the constant value is in squares/second
+		rotSpeed := frameTime * 3.0  // the constant value is in radians/second
 
 		if _, exists := keys[Forward]; exists {
 			if worldMap[int(posX+dirX*moveSpeed)][int(posY)] == 0 {
@@ -455,6 +535,19 @@ func run() (err error) {
 	}
 
 	return
+}
+
+func set(x int32, y int32, color int32, dist float64, surface *sdl.Surface, pixels []byte) {
+	scale := 1 - min(.3*math.Sqrt(dist), 1)
+
+	b := float64(color>>0&0xff) * scale
+	g := float64(color>>8&0xff) * scale
+	r := float64(color>>16&0xff) * scale
+
+	i := y*surface.Pitch + x*int32(surface.Format.BytesPerPixel)
+	pixels[i] = byte(b)   // b
+	pixels[i+1] = byte(g) // g
+	pixels[i+2] = byte(r) // r
 }
 
 func main() {
