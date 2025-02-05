@@ -21,17 +21,18 @@ const (
 )
 
 const (
-	width         = 1080
-	height        = 720
-	mapWidth      = 24
-	mapHeight     = 24
-	fontPath      = "../assets/fonts/dogica.ttf"
-	fontSize      = 24
-	textureWidth  = 64
-	textureHeight = 64
+	width           = 1080
+	height          = 720
+	mapWidth        = 24
+	mapHeight       = 24
+	fontPath        = "../assets/fonts/dogica.ttf"
+	fontSize        = 24
+	textureWidth    = 64
+	textureHeight   = 64
+	halfPi          = math.Pi * .5
+	highlightBorder = 2
+	lights          = false
 )
-
-const halfPi = math.Pi * .5
 
 var white = sdl.Color{R: 255, G: 255, B: 255, A: 255}
 var black = sdl.Color{R: 0, G: 0, B: 0, A: 255}
@@ -161,18 +162,24 @@ func run() (err error) {
 
 	// Which keys are currently being pressed
 	keys := map[Direction]interface{}{}
+	var hovering struct {
+		x     int32
+		y     int32
+		side  int
+		mouse *sdl.MouseMotionEvent
+	}
 
 	textures := generateTextures(textureWidth, textureHeight)
 	pixels := surface.Pixels()
 
+	// Vertical position of the camera.
+	posZ := 0.5 * height
+
+	floorTexture := 3
+	ceilingTexture := 5
+
 	for running {
 		// surface.FillRect(&sdl.Rect{X: 0, Y: 0, W: width, H: height}, 0)
-
-		for x := int32(0); x < width; x++ {
-			for y := int32(0); y < height; y++ {
-				set(x, y, 0xffffff, 0, surface, pixels)
-			}
-		}
 
 		// for x := 0; x < 8*texturewidth; x++ {
 		// 	for y := 0; y < textureheight; y++ {
@@ -181,19 +188,13 @@ func run() (err error) {
 		// 	}
 		// }
 
-		// Vertical position of the camera.
-		posZ := 0.5 * height
-
-		floorTexture := 3
-		ceilingTexture := 5
-
 		// rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
 		rayDirX0 := dirX - planeX
 		rayDirY0 := dirY - planeY
 		rayDirX1 := dirX + planeX
 		rayDirY1 := dirY + planeY
 
-		// FLOOR CASTING
+		// floor casting
 		for y := int32(0); y < height; y++ {
 			// Current y position compared to the center of the screen (the horizon)
 			p := y - height/2
@@ -223,8 +224,7 @@ func run() (err error) {
 				floorX += floorStepX
 				floorY += floorStepY
 
-				//dist := math.Sqrt(math.Pow(posX-floorX, 2) + math.Pow(posY-floorY, 2))
-				dist := math.Max(math.Abs(posX-floorX), math.Abs(posY-floorY))
+				dist := max(math.Abs(posX-floorX), math.Abs(posY-floorY))
 
 				// floor
 				color := textures[floorTexture][textureWidth*ty+tx]
@@ -238,6 +238,7 @@ func run() (err error) {
 			}
 		}
 
+		// walls
 		for x := int32(0); x < width; x++ {
 			// calculate ray position and direction
 			cameraX := float64(2*x)/float64(width) - 1 // x-coordinate in camera space
@@ -302,6 +303,7 @@ func run() (err error) {
 					mapY += stepY
 					side = 1
 				}
+
 				// Check if ray has hit a wall
 				if worldMap[mapX][mapY] > 0 {
 					hit = 1
@@ -323,6 +325,7 @@ func run() (err error) {
 			if drawStart < 0 {
 				drawStart = 0
 			}
+
 			drawEnd := lineHeight/2 + height/2
 			if drawEnd >= height {
 				drawEnd = height - 1
@@ -348,6 +351,15 @@ func run() (err error) {
 				texX = textureWidth - texX - 1
 			}
 
+			if hovering.mouse != nil &&
+				hovering.mouse.X == x &&
+				hovering.mouse.Y >= drawStart &&
+				hovering.mouse.Y <= drawEnd {
+				hovering.x = mapX
+				hovering.y = mapY
+				hovering.side = side
+			}
+
 			step := float64(textureHeight) / float64(lineHeight)
 
 			// Starting texture coordinate
@@ -358,6 +370,11 @@ func run() (err error) {
 				texY := int32(texPos) & (textureHeight - 1)
 				texPos += step
 				color := textures[texNum][textureHeight*texY+texX]
+				if hovering.side == side && hovering.x == mapX && hovering.y == mapY &&
+					((texY < highlightBorder || texY > textureHeight-highlightBorder) || (texX < highlightBorder || texX > textureWidth-highlightBorder)) {
+					color = 0xff00ff
+				}
+
 				// make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
 				if side == 1 {
 					color = (color >> 1) & 0x7f7f7f
@@ -365,16 +382,7 @@ func run() (err error) {
 
 				set(x, y, color, perpWallDist, surface, pixels)
 			}
-
-			// draw the pixels of the stripe as a vertical line
-			// renderer.SetDrawColor(color.R, color.G, color.B, color.A)
-			// renderer.DrawLine(x, drawStart, x, drawEnd)
 		}
-
-		// timing for input and FPS counter
-		oldTime = time
-		time = sdl.GetTicks64()
-		frameTime := float64(time-oldTime) / 1000.0 // frameTime is the time this frame has taken, in milliseconds
 
 		// draw a map
 		for x := int32(0); x < mapWidth; x++ {
@@ -389,18 +397,26 @@ func run() (err error) {
 				scaledX := x * 4
 				scaledY := y * 4
 				for sx := int32(0); sx < 4; sx++ {
-					set(scaledX+2, scaledY+2+sx, color, 0, surface, pixels)
-					set(scaledX+3, scaledY+2+sx, color, 0, surface, pixels)
-					set(scaledX+4, scaledY+2+sx, color, 0, surface, pixels)
-					set(scaledX+5, scaledY+2+sx, color, 0, surface, pixels)
+					sy := scaledY + 2 + sx
+					set(scaledX+2, sy, color, 0, surface, pixels)
+					set(scaledX+3, sy, color, 0, surface, pixels)
+					set(scaledX+4, sy, color, 0, surface, pixels)
+					set(scaledX+5, sy, color, 0, surface, pixels)
 				}
 			}
 		}
 
+		// timing for input and FPS counter
+		oldTime = time
+		time = sdl.GetTicks64()
+		frameTime := float64(time-oldTime) / 1000.0 // frameTime is the time this frame has taken, in milliseconds
+
+		// output the rendered surface
 		surfaceTexture, _ := renderer.CreateTextureFromSurface(surface)
 		renderer.Copy(surfaceTexture, nil, &sdl.Rect{X: 1, Y: 1, W: width, H: height})
 		surfaceTexture.Destroy()
 
+		// render fps counter
 		fps, _ := font.RenderUTF8Blended(fmt.Sprintf("%.0f", 1.0/frameTime), white)
 		fpsTexture, _ := renderer.CreateTextureFromSurface(fps)
 		renderer.Copy(fpsTexture, nil, &sdl.Rect{X: width - fps.W, Y: 2, W: fps.W, H: fps.H})
@@ -468,6 +484,7 @@ func run() (err error) {
 			planeY = oldPlaneX*math.Sin(rotSpeed) + planeY*math.Cos(rotSpeed)
 		}
 
+		// Process events
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
 			switch t := event.(type) {
 			case *sdl.QuitEvent:
@@ -475,6 +492,7 @@ func run() (err error) {
 				running = false
 			case *sdl.MouseMotionEvent:
 				fmt.Printf("Mouse %d moved by %d %d at %d %d\n", t.Which, t.XRel, t.YRel, t.X, t.Y)
+				hovering.mouse = t
 			case *sdl.MouseButtonEvent:
 				if t.State == sdl.PRESSED {
 					fmt.Printf("Mouse %d button %d pressed at %d %d\n", t.Which, t.Button, t.X, t.Y)
@@ -538,16 +556,24 @@ func run() (err error) {
 }
 
 func set(x int32, y int32, color int32, dist float64, surface *sdl.Surface, pixels []byte) {
-	scale := 1 - min(.3*math.Sqrt(dist), 1)
-
-	b := float64(color>>0&0xff) * scale
-	g := float64(color>>8&0xff) * scale
-	r := float64(color>>16&0xff) * scale
-
 	i := y*surface.Pitch + x*int32(surface.Format.BytesPerPixel)
-	pixels[i] = byte(b)   // b
-	pixels[i+1] = byte(g) // g
-	pixels[i+2] = byte(r) // r
+
+	var r, g, b byte
+	if lights {
+		b = byte(color >> 0 & 0xff)
+		g = byte(color >> 8 & 0xff)
+		r = byte(color >> 16 & 0xff)
+	} else {
+		scale := 1 - min(.3*math.Sqrt(dist), 1)
+		b = byte(float64(color>>0&0xff) * scale)
+		g = byte(float64(color>>8&0xff) * scale)
+		r = byte(float64(color>>16&0xff) * scale)
+
+	}
+
+	pixels[i] = b
+	pixels[i+1] = g
+	pixels[i+2] = r
 }
 
 func main() {
